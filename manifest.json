@@ -8,7 +8,7 @@
   "description": "A smart urban guide to keep you street-wise and safe.",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "icon.png",
       "sizes": "192x192",
       "type": "image/png"
     },
