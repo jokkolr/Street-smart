@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StreetSmart</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    @keyframes gradientShift {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      color: #fff;
+      animation: floatUp 2s ease forwards;
+      transform: translateY(40px);
+      opacity: 0;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      color: #fff;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      backdrop-filter: blur(3px);
+    }
+
+    textarea::placeholder {
+      color: #ddd;
+    }
+
+    select option {
+      color: #000;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
+      background: #00c853;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #00a244;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>StreetSmart</h1>
+    <p style="text-align:center;">🚨 Report a local issue anonymously — even offline.</p>
+
+    <label for="category">📌 Category:</label>
+    <select id="category">
+      <option value="">-- Select Issue --</option>
+      <option value="Crime">Crime</option>
+      <option value="Flood">Flood</option>
+      <option value="Road Damage">Road Damage</option>
+      <option value="Fire">Fire</option>
+      <option value="Harassment">Harassment</option>
+    </select>
+
+    <label for="description">📝 Description:</label>
+    <textarea id="description" placeholder="Describe the issue..." rows="5"></textarea>
+
+    <button onclick="saveReport()">💾 Save Report (Offline)</button>
+  </div>
+
+  <script>
+    function saveReport() {
+      const category = document.getElementById('category').value;
+      const description = document.getElementById('description').value;
+
+      if (!category || !description) {
+        alert("Please fill in both category and description.");
+        return;
+      }
+
+      const report = {
+        category,
+        description,
+        timestamp: new Date().toISOString(),
+        location: "To be added"
+      };
+
+      const key = 'report-' + Date.now();
+      localStorage.setItem(key, JSON.stringify(report));
+
+      alert("✅ Report saved offline. It will sync when online.");
+
+      // Reset form
+      document.getElementById('category').value = '';
+      document.getElementById('description').value = '';
+    }
+  </script>
+</body>
+  </html>
