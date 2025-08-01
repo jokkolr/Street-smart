@@ -3,10 +3,14 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/style.css',
-  '/icon.png'
+  '/icon.png',
+  // Add more files if you have them:
+  // '/main.js',
+  // '/about.html',
+  // '/images/logo.png'
 ];
 
-// Install event - caching assets
+// Install event – caching assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -15,11 +19,13 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Fetch event - serving cached content
+// Fetch event – serve from cache or fetch from network, fallback to /index.html
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
       return response || fetch(event.request);
+    }).catch(() => {
+      return caches.match('/index.html'); // Fallback when offline
     })
   );
 });
